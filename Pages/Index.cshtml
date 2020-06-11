@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{ ViewData["Title"] = "Browse";
+    ViewData["EnableTakePhoto"] = true; }
+
+<table>
+    <tbody>
+        @for (int i = 0; i < Model.Photos.Length - 1; i += 2)
+        {
+            <tr>
+                <td class="w-50">
+                    <a asp-page="./Photos/Details" asp-route-id="@Model.Photos[i].PhotoId">
+                        <img src="@Model.Photos[i].EncodedData" class="w-100"
+                                title="@Model.Photos[i].Title" />
+                    </a>
+                </td>
+                <td class="w-50">
+                    <a asp-page="./Photos/Details" asp-route-id="@Model.Photos[i + 1].PhotoId">
+                        <img src="@Model.Photos[i + 1].EncodedData" class="w-100"
+                                title="@Model.Photos[i + 1].Title" />
+                    </a>
+                </td>
+            </tr>
+        }
+
+        @if (Model.Photos.Length % 2 != 0)
+        {
+            <tr>
+                <td class="w-50">
+                    <a asp-page="./Photos/Details" asp-route-id="@Model.Photos[Model.Photos.Length - 1].PhotoId">
+                        <img src="@Model.Photos[Model.Photos.Length - 1].EncodedData" class="w-100"
+                                title="@Model.Photos[Model.Photos.Length - 1].Title" />
+                    </a>
+                </td>
+                <td class="w-50"></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,13 @@
+﻿@page
+@model PhotoApp.Pages.Photos.DetailsModel
+
+@{
+    ViewData["Title"] = Model.Photo.Title;
+}
+
+<div class="row">
+    <img src="@Model.Photo.EncodedData" class="w-100"/>
+</div>
+<div class="row text-center">
+    @Model.Photo.Description
+</div>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class="dropdown align-content-start col-md-4">
+                    <button class="btn fa fa-bars" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="nav-link" asp-area="" asp-page="/Index">Browse</a>
+                        <a class="nav-link" asp-area="" asp-page="/Photos/TakePhoto">Take Photo</a>
+                    </div>
+                </div>
+                <span id="page-title" class="col-md-4 text-center">@ViewData["Title"]</span>
+                <div class="col-md-4 text-right">
+                    @if (ViewData.TryGetValue("EnableTakePhoto", out var enable_take_photo) == true && (bool)enable_take_photo)
+                    {
+                        <a asp-page="/Photos/TakePhoto"><i class="fa fa-camera" aria-hidden="true"></i></a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

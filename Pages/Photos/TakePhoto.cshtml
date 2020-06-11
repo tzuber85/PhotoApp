@@ -1,0 +1,61 @@
+﻿@page
+@model PhotoApp.Pages.Photos.TakePhotoModel
+
+@{ ViewData["Title"] = "Take Photo"; }
+
+<div id="camera-preview" class="form-group w-100 text-center">   
+    <video id="camera-player" class="w-100" autoplay></video>
+    <a href="#" id="camera-capture"><i class="fa fa-camera fa-2x" aria-hidden="true"></i></a>
+</div>
+
+<form id="photo-form" method="post" class="w-100" hidden="">
+    <canvas id="photo-preview" class="w-100"></canvas>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Photo.Title" class="control-label"></label>
+        <input id="photo-title" asp-for="Photo.Title" class="form-control" required=""/>
+        <span asp-validation-for="Photo.Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Photo.Description" class="control-label"></label>
+        <input asp-for="Photo.Description" class="form-control" />
+        <span asp-validation-for="Photo.Description" class="text-danger"></span>
+    </div>
+    <input id="photo-data" asp-for="Photo.EncodedData" class="form-control" type="hidden" />
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary w-100" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            const constraints = {
+                video: { "facingMode": "environment" }
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then((stream) => { $("#camera-player")[0].srcObject = stream; });    
+
+            $("#camera-capture").click(() => {
+                var canvas = $("#photo-preview")[0];
+                var player = $("#camera-player")[0];
+
+                canvas.getContext('2d')
+                    .drawImage(player, 0, 0, canvas.width, canvas.height);
+
+                player.srcObject.getVideoTracks().forEach(track => track.stop());
+
+                $("#photo-data").val(canvas.toDataURL('image/png'));
+                $("#camera-preview").attr("hidden", "");
+                $("#photo-form").removeAttr("hidden");
+                return false;
+            });
+
+            $("#photo-title").change(() => {
+                $("#page-title").text($("#photo-title").val());
+            });
+        });
+    </script>
+}
